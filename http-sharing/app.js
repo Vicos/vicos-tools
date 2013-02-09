@@ -11,7 +11,8 @@ var express = require('express')
 var app = express();
 
 var sharedDirs = [
-   { name: 'visdur2', path: 'E:/' },
+    { name: 'docs', path: 'D:/Users/Florent' },
+    { name: 'visdur2', path: 'E:/' },
 ];
 
 app.configure(function(){
