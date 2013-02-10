@@ -6,20 +6,16 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , conf = require('./conf');
 
 var app = express();
 
-var sharedDirs = [
-    { name: 'docs', path: 'D:/Users/Florent' },
-    { name: 'visdur2', path: 'E:/' },
-];
-
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', conf.port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.set('shared dirs', sharedDirs);
+  app.set('shared dirs', conf.sharedDirs);
   
   app.use(express.favicon());
   app.use(express.logger('dev'));
@@ -29,9 +25,9 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.directory(path.join(__dirname, 'public')));
   
-  for (var i in sharedDirs) {
-    app.use('/shared/'+sharedDirs[i].name, express.static(sharedDirs[i].path));
-    app.use('/shared/'+sharedDirs[i].name, express.directory(sharedDirs[i].path));
+  for (var i in conf.sharedDirs) {
+    app.use('/shared/'+conf.sharedDirs[i].name, express.static(conf.sharedDirs[i].path));
+    app.use('/shared/'+conf.sharedDirs[i].name, express.directory(conf.sharedDirs[i].path));
   }
 });
 
