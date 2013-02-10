@@ -61,7 +61,6 @@ exports = module.exports = function directory(root, options){
       , path = normalize(join(root, dir))
       , originalUrl = parse(req.originalUrl)
       , originalDir = decodeURIComponent(originalUrl.pathname)
-      , showUp = path != root && path != root + '/';
 
     // null byte(s), bad request
     if (~path.indexOf('\0')) return next(400);
@@ -87,7 +86,7 @@ exports = module.exports = function directory(root, options){
         // content-negotiation
         for (var key in exports) {
           if (~accept.indexOf(key) || ~accept.indexOf('*/*')) {
-            exports[key](req, res, files, next, originalDir, showUp, icons);
+            exports[key](req, res, files, next, originalDir, path);
             return;
           }
         }
@@ -103,14 +102,14 @@ exports = module.exports = function directory(root, options){
  * Respond with text/html.
  */
 
-exports.html = function(req, res, filelist, next, dirpath, showUp, icons){
-  var dirs = [ { name: res.app.settings['app name'], path: '/'} ]; // add root by default
-  dirpath.split('/').map(function(dir) { // for each subdir
+exports.html = function(req, res, filelist, next, dirUri, dirPath){
+  var dirs = [ { name: res.app.settings['app name'], uri: '/'} ]; // add root by default
+  dirUri.split('/').map(function(dir) { // for each subdir
     if (dir == "") return; // root or some junk with url
 
     dirs.push({
       name: dir,
-      path: path.join(dirs[dirs.length-1].path, dir)
+      uri: path.join(dirs[dirs.length-1].uri, dir)
     });
   });
 
@@ -118,12 +117,13 @@ exports.html = function(req, res, filelist, next, dirpath, showUp, icons){
   filelist.map(function(file) {
     files.push({
       name: file,
-      path: path.join(dirpath, file)
+      uri: path.join(dirUri, file),
+      icon: getIcon(path.resolve(dirPath, file))
     });
   });
 
   res.render('directory', {
-    title: dirpath,
+    title: dirUri,
     dirs: dirs,
     files: files,
   });
@@ -151,17 +151,8 @@ exports.plain = function(req, res, files){
   res.end(files);
 };
 
-/**
- * Load and cache the given `icon`.
- *
- * @param {String} icon
- * @return {String}
- * @api private
- */
-
-function load(icon) {
-  if (cache[icon]) return cache[icon];
-  return cache[icon] = fs.readFileSync(__dirname + '/../public/icons/' + icon, 'base64');
+function getIcon(file) {
+  return '/icons/default.png';
 }
 
 /**

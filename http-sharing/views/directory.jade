@@ -3,12 +3,12 @@ extends layout
 block content
   h1
     each dir in dirs
-      a(href="#{dir.path}") #{dir.name}
+      a(href="#{dir.uri}") #{dir.name}
       = " > "
 
   ul.blocklist
     each file in files
       li
-        a(href="#{file.path}").block
+        a(href="#{file.uri}").block
+          img(src="#{file.icon}")
           p.blockname #{file.name}
-
