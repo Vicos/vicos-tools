@@ -1,6 +1,7 @@
 body {
   padding: 50px;
   font: 14px sans-serif;
+  background-color: #eee;
 }
 
 h1 {
@@ -31,7 +32,8 @@ a {
 
   text-decoration: none;
   border: 1px solid black;
-  box-shadow: 0 0 15px #999;
+  box-shadow: 0 0 15px #777;
+  background-color: #fff;
 }
 
 .block img {
