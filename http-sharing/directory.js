@@ -17,13 +17,8 @@ var fs = require('fs')
   , path = require('path')
   , normalize = path.normalize
   , extname = path.extname
-  , join = path.join;
-
-/*!
- * Icon cache.
- */
-
-var cache = {};
+  , join = path.join
+  , mime = require('express').mime;
 
 /**
  * Directory:
@@ -152,6 +147,7 @@ exports.plain = function(req, res, files){
 function getIcon(file) {
   var icon = null;
 
+  // directory icon
   try {
     stat = fs.statSync(file);
     if (stat.isDirectory())
@@ -159,6 +155,33 @@ function getIcon(file) {
   }
   catch (e) {}
 
+  // file icon
+  if (icon == null)
+  {
+    var mimetype = mime.lookup(file);
+    if (mimetype) {
+      var type = mimetype.split('/')[0];
+      switch (type) {
+        case 'application':
+          icon = '/icons/application.png';
+          break;
+        case 'audio':
+          icon = '/icons/audio.png';
+          break;
+        case 'image':
+          icon = '/icons/image.png';
+          break;
+        case 'text':
+          icon = '/icons/text.png';
+          break;
+        case 'video':
+          icon = '/icons/video.png';
+          break;
+      }
+    }
+  }
+
+  // default case
   if (icon == null)
     icon = '/icons/default.png';
 
@@ -176,6 +199,7 @@ function getIcon(file) {
 
 function removeHidden(files, dirPath) {
   return files.filter(function(file) {
+    // remove unaccessible files/dirs
     try {
       stat = fs.statSync(path.resolve(dirPath, file));
     }
@@ -183,6 +207,7 @@ function removeHidden(files, dirPath) {
       return false;
     }
 
+    // remove .* files/dirs
     return '.' != file[0];
   });
 }
