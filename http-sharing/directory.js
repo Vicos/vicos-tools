@@ -152,43 +152,6 @@ exports.plain = function(req, res, files){
 };
 
 /**
- * Map html `dir`, returning a linked path.
- */
-
-function htmlPath(dir) {
-  var curr = [];
-  return dir.split('/').map(function(part){
-    curr.push(part);
-    return '<a href="' + curr.join('/') + '">' + part + '</a>';
-  }).join(' / ');
-}
-
-/**
- * Map html `files`, returning an html unordered list.
- */
-
-function html(files, dir, useIcons) {
-  return '<ul id="files">' + files.map(function(file){
-    var icon = ''
-      , classes = [];
-
-    if (useIcons && '..' != file) {
-      icon = icons[extname(file)] || icons.default;
-      icon = '<img src="data:image/png;base64,' + load(icon) + '" />';
-      classes.push('icon');
-    }
-
-    return '<li><a href="'
-      + join(dir, file)
-      + '" class="'
-      + classes.join(' ') + '"'
-      + ' title="' + file + '">'
-      + icon + file + '</a></li>';
-
-  }).join('\n') + '</ul>';
-}
-
-/**
  * Load and cache the given `icon`.
  *
  * @param {String} icon

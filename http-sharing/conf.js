@@ -5,8 +5,8 @@ module.exports = {
 
   // Shared directories
   sharedDirs: [
-    { name: 'docs', path: 'D:/Users/Florent' },
-    { name: 'visdur2', path: 'E:/' },
+    { name: 'Docs', path: 'D:/Users/Florent' },
+    { name: 'Visdur2', path: 'E:/' },
   ],
 
   // Listening port

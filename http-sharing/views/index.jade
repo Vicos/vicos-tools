@@ -1,9 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Available shared directories
-  ul
-  each sharedDir in sharedDirs
-    li
-      a(href='/shared/#{sharedDir.name}') #{sharedDir.name}
+  h1 #{title}
+
+  ul.blocklist
+    each sharedDir in sharedDirs
+      li
+        a(href='/shared/#{sharedDir.name}').block
+          p.blockname #{sharedDir.name}
