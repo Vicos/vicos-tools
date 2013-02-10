@@ -14,7 +14,7 @@ var app = express();
 
 app.configure(function(){
   var oneMonth = 2592000000;
-  
+
   app.set('app name', 'http-sharing');
   app.set('port', conf.port);
   app.set('views', __dirname + '/views');
@@ -23,6 +23,7 @@ app.configure(function(){
   
   app.use(express.favicon());
   app.use(express.logger('dev'));
+  app.use(express.compress());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
