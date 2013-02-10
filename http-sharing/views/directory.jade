@@ -6,8 +6,9 @@ block content
       a(href="#{dir.path}") #{dir.name}
       = " > "
 
-  ul
+  ul.blocklist
     each file in files
       li
-        a(href="#{file.path}") #{file.name}
+        a(href="#{file.path}").block
+          p.blockname #{file.name}
 
