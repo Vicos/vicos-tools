@@ -13,6 +13,7 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
+  app.set('app name', 'http-sharing');
   app.set('port', conf.port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
