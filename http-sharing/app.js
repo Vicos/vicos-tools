@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
-  , conf = require('./conf');
+  , conf = require('./conf')
+  , directory = require('./directory');
 
 var app = express();
 
@@ -23,11 +24,11 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
-  app.use(express.directory(path.join(__dirname, 'public')));
+  app.use(directory(path.join(__dirname, 'public')));
   
   for (var i in conf.sharedDirs) {
     app.use('/shared/'+conf.sharedDirs[i].name, express.static(conf.sharedDirs[i].path));
-    app.use('/shared/'+conf.sharedDirs[i].name, express.directory(conf.sharedDirs[i].path));
+    app.use('/shared/'+conf.sharedDirs[i].name, directory(conf.sharedDirs[i].path));
   }
 });
 
