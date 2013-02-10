@@ -47,9 +47,7 @@ exports = module.exports = function directory(root, options){
 
   // root required
   if (!root) throw new Error('directory() root path required');
-  var hidden = options.hidden
-    , icons = options.icons
-    , filter = options.filter
+  var filter = options.filter
     , root = normalize(root);
 
   return function directory(req, res, next) {
@@ -79,7 +77,7 @@ exports = module.exports = function directory(root, options){
       // fetch files
       fs.readdir(path, function(err, files){
         if (err) return next(err);
-        if (!hidden) files = removeHidden(files);
+        files = removeHidden(files, path);
         if (filter) files = files.filter(filter);
         files.sort();
 
@@ -152,7 +150,19 @@ exports.plain = function(req, res, files){
 };
 
 function getIcon(file) {
-  return '/icons/default.png';
+  var icon = null;
+
+  try {
+    stat = fs.statSync(file);
+    if (stat.isDirectory())
+      icon = '/icons/directory.png';
+  }
+  catch (e) {}
+
+  if (icon == null)
+    icon = '/icons/default.png';
+
+  return icon;
 }
 
 /**
@@ -164,8 +174,15 @@ function getIcon(file) {
  * @api private
  */
 
-function removeHidden(files) {
-  return files.filter(function(file){
+function removeHidden(files, dirPath) {
+  return files.filter(function(file) {
+    try {
+      stat = fs.statSync(path.resolve(dirPath, file));
+    }
+    catch (e) {
+      return false;
+    }
+
     return '.' != file[0];
   });
 }
