@@ -211,20 +211,3 @@ function removeHidden(files, dirPath) {
     return '.' != file[0];
   });
 }
-
-/**
- * Icon map.
- */
-
-var icons = {
-    '.js': 'page_white_code_red.png'
-  , '.c': 'page_white_c.png'
-  , '.h': 'page_white_h.png'
-  , '.cc': 'page_white_cplusplus.png'
-  , '.php': 'page_white_php.png'
-  , '.rb': 'page_white_ruby.png'
-  , '.cpp': 'page_white_cplusplus.png'
-  , '.swf': 'page_white_flash.png'
-  , '.pdf': 'page_white_acrobat.png'
-  , 'default': 'page_white.png'
-};
