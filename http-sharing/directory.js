@@ -4,11 +4,9 @@
  * Copyright(c) 2011 Sencha Inc.
  * Copyright(c) 2011 TJ Holowaychuk
  * MIT Licensed
+ * 
+ * forked by Vicos
  */
-
-// TODO: icon / style for directories
-// TODO: arrow key navigation
-// TODO: make icons extensible
 
 /**
  * Module dependencies.
@@ -105,21 +103,29 @@ exports = module.exports = function directory(root, options){
  * Respond with text/html.
  */
 
-exports.html = function(req, res, files, next, dir, showUp, icons){
-  fs.readFile(path.join(__dirname, 'public/directory.html'), 'utf8', function(err, str){
-    if (err) return next(err);
-    fs.readFile(path.join(__dirname, 'public/stylesheets/style-directory.css'), 'utf8', function(err, style){
-      if (err) return next(err);
-      if (showUp) files.unshift('..');
-      str = str
-        .replace('{style}', style)
-        .replace('{files}', html(files, dir, icons))
-        .replace('{directory}', dir)
-        .replace('{linked-path}', htmlPath(dir));
-      res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Content-Length', str.length);
-      res.end(str);
+exports.html = function(req, res, filelist, next, dirpath, showUp, icons){
+  var dirs = [ { name: res.app.settings['app name'], path: '/'} ]; // add root by default
+  dirpath.split('/').map(function(dir) { // for each subdir
+    if (dir == "") return; // root or some junk with url
+
+    dirs.push({
+      name: dir,
+      path: path.join(dirs[dirs.length-1].path, dir)
     });
+  });
+
+  var files = [];
+  filelist.map(function(file) {
+    files.push({
+      name: file,
+      path: path.join(dirpath, file)
+    });
+  });
+
+  res.render('directory', {
+    title: dirpath,
+    dirs: dirs,
+    files: files,
   });
 };
 
