@@ -7,4 +7,5 @@ block content
     each sharedDir in sharedDirs
       li
         a(href='/shared/#{sharedDir.name}').block
+          img(src="/icons/shared-directory.png")
           p.blockname #{sharedDir.name}
