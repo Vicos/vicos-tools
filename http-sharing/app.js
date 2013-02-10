@@ -13,6 +13,8 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
+  var oneMonth = 2592000000;
+  
   app.set('app name', 'http-sharing');
   app.set('port', conf.port);
   app.set('views', __dirname + '/views');
@@ -24,7 +26,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneMonth }));
   app.use(directory(path.join(__dirname, 'public')));
   
   for (var i in conf.sharedDirs) {
