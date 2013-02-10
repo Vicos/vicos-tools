@@ -1,16 +1,17 @@
-@import url(http://fonts.googleapis.com/css?family=Oswald);
+@import url(http://fonts.googleapis.com/css?family=Fjalla+One);
 
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px sans-serif;
 }
 
 h1 {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 
 a {
   color: #00B7FF;
+  text-decoration: none;
 }
 
 /* blocklist */
