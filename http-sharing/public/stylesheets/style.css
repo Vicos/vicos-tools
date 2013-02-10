@@ -20,13 +20,16 @@ a {
   list-style-type: none;
 }
 
+.blocklist li {
+  display: inline;
+}
+
 .block {
-  display: block;
+  display: inline-block;
   position: relative;
   height: 120px;
   width: 200px;
   margin: 20px;
-  float: left;
 
   text-decoration: none;
   border: 1px solid black;
