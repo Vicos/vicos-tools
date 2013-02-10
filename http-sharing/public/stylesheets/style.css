@@ -29,6 +29,7 @@ a {
 
   text-decoration: none;
   border: 1px solid black;
+  box-shadow: 0 0 15px #999;
 }
 
 .block img {
