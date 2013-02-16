@@ -124,7 +124,7 @@ exports.json = function(req, res, files){
   res.setHeader('Content-Length', files.length);
   res.end(files);
   */
-  throw "unimplemented yet"
+  return; // unimplemented yet
 };
 
 exports.plain = function(req, res, files){
@@ -133,7 +133,7 @@ exports.plain = function(req, res, files){
   res.setHeader('Content-Length', files.length);
   res.end(files);
   */
-  throw "unimplemented yet"
+  return; // unimplemented yet
 };
 
 function getIcon(file) {
